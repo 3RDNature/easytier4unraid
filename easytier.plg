@@ -1,0 +1,182 @@
+<?xml version='1.0' standalone='yes'?>
+
+<!DOCTYPE PLUGIN [
+<!ENTITY name          "easytier">
+<!ENTITY author        "nekonature">
+<!ENTITY pluginurl        "https://raw.githubusercontent.com/3RDNature/easytier4unraid/main/easytier.plg">
+<!ENTITY supporturl        "https://github.com/3RDNature/easytier4unraid">
+<!ENTITY pluginver     "2024.08.16">
+<!ENTITY minosver      "6.11.0">
+<!ENTITY usbcfgdir     "/boot/config/plugins/&name;/">
+]>
+
+<PLUGIN  name="&name;"
+         author="&author;"
+         version="&pluginver;"
+         pluginURL="&pluginurl;"
+         support="&supporturl;"
+         min="&minosver;"
+         >
+
+<CHANGES>
+## EasyTier
+
+### 2024.08.16
+- Started Project
+
+</CHANGES>
+
+<FILE Name="&usbcfgdir;easytier-linux-x86_64.zip">
+<URL>https://github.com/EasyTier/EasyTier/releases/download/v1.2.2/easytier-linux-x86_64-v1.2.2.zip</URL>
+<MD5>a1c935837a938dac78a51323e06f843b</MD5>
+</FILE>
+
+<FILE Run="/bin/bash">
+<INLINE>
+<![CDATA[
+mkdir -p /usr/local/emhttp/plugins/easytier/bin
+
+unzip -o /boot/config/plugins/easytier/easytier-linux-x86_64.zip -d /usr/local/emhttp/plugins/easytier/bin
+
+ln -s /usr/local/emhttp/plugins/easytier/bin/easytier-linux-x86_64/easytier-cli /usr/local/sbin/easytier-cli
+ln -s /usr/local/emhttp/plugins/easytier/bin/easytier-linux-x86_64/easytier-core /usr/local/sbin/easytier-core
+
+if [ ! -f "/boot/config/plugins/easytier/config.toml" ]; then
+    echo "config file does not exist, getting a new one...."
+    cat > /boot/config/plugins/easytier/config.toml << EOF
+# 实例名称，用于在同一台机器上标识此 VPN 节点
+instance_name = ""
+# 主机名，用于标识此设备的主机名
+hostname = ""
+# 实例 ID，一般为 UUID，在同一个 VPN 网络中唯一
+instance_id = ""
+# 此 VPN 节点的 IPv4 地址，如果为空，则此节点将仅转发数据包，不会创建 TUN 设备
+ipv4 = ""
+# 由 Easytier 自动确定并设置IP地址，默认从10.0.0.1开始。警告：在使用 DHCP 时，如果网络中出现 IP 冲突，IP 将自动更改
+dhcp = false
+
+# 监听器列表，用于接受连接
+listeners = [
+"tcp://0.0.0.0:11010",
+"udp://0.0.0.0:11010",
+"wg://0.0.0.0:11011",
+"ws://0.0.0.0:11011/",
+"wss://0.0.0.0:11012/",
+]
+
+# 退出节点列表
+exit_nodes = [
+]
+
+# 用于管理的 RPC 门户地址
+rpc_portal = "127.0.0.1:15888"
+
+[network_identity]
+# 网络名称，用于标识 VPN 网络
+network_name = ""
+# 网络密钥，用于验证此节点属于 VPN 网络
+network_secret = ""
+
+# 这里是对等连接节点配置，可以多段配置
+[[peer]]
+uri = ""
+
+[[peer]]
+uri = ""
+
+# 这里是子网代理节点配置，可以有多段配置
+[[proxy_network]]
+cidr = "10.0.1.0/24"
+
+[[proxy_network]]
+cidr = "10.0.2.0/24"
+
+[flags]
+# 连接到对等节点使用的默认协议
+default_protocol = "tcp"
+# TUN 设备名称，如果为空，则使用默认名称
+dev_name = ""
+# 是否启用加密
+enable_encryption = true
+# 是否启用 IPv6 支持
+enable_ipv6 = true
+# TUN 设备的 MTU
+mtu = 1380
+# 延迟优先模式，将尝试使用最低延迟路径转发流量，默认使用最短路径
+latency_first = false
+# 将本节点配置为退出节点
+enable_exit_node = false
+# 禁用 TUN 设备
+no_tun = false
+# 为子网代理启用 smoltcp 堆栈
+use_smoltcp = false
+# 仅转发白名单网络的流量，支持通配符字符串。多个网络名称间可以使用英文空格间隔。如果该参数为空，则禁用转发。默认允许所有网络。例如：'*'（所有网络），'def*'（以def为前缀的网络），'net1 net2'（只允许net1和net2）
+foreign_network_whitelist = "*"
+EOF
+fi
+
+if [ ! -f "/etc/rc.d/rc.easytier" ]; then
+cat > /etc/rc.d/rc.easytier << EOF
+#!/bin/bash
+
+start() {
+	nohup /usr/local/sbin/easytier-core -c /boot/config/plugins/easytier/config.toml > /dev/null 2>&1& echo $! > /usr/local/emhttp/plugins/easytier/easytier.pid
+    nohup /usr/local/sbin/easytier-core -c /boot/config/plugins/easytier/config.toml > /dev/null 2>&1& echo $! > /usr/local/emhttp/plugins/easytier/easytier.pid
+    echo "EasyTier started"
+}
+
+stop() {
+    kill $(cat /usr/local/emhttp/plugins/easytier/easytier.pid)
+    rm /usr/local/emhttp/plugins/easytier/easytier.pid
+    echo "EasyTier stopped"
+}
+
+case "\$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: \$0 {start|stop|restart}"
+esac
+
+exit 0
+EOF
+fi
+
+chmod +x /etc/rc.d/rc.easytier
+
+echo ""
+echo "+=============================================================================="
+echo "| &name; version &pluginver; has been installed."
+echo "+=============================================================================="
+echo ""
+/etc/rc.d/rc.easytier start
+]]>
+</INLINE>
+</FILE>
+
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+/etc/rc.d/rc.easytier stop
+rm /usr/local/sbin/easytier-cli
+rm /usr/local/sbin/easytier-core
+rm /etc/rc.d/rc.easytier
+rm -rf /usr/local/emhttp/plugins/easytier/
+echo ""
+echo "+=============================================================================="
+echo "| easytier has been uninstalled."
+echo "+=============================================================================="
+echo ""
+
+exit 0
+</INLINE>
+</FILE>
+
+</PLUGIN>
