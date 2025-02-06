@@ -37,7 +37,7 @@
 
 <FILE Name="&usbcfgdir;easytier-linux-x86_64.zip">
 <URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.2.0/easytier-linux-x86_64-v2.2.0.zip</URL>
-<MD5>fa70fb5ea415f78eb07d44ad5158c5d5</MD5>
+<MD5>b6f890a6e893c4971438c86d4040ca56</MD5>
 </FILE>
 
 <FILE Run="/bin/bash">
