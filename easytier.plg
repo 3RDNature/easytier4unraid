@@ -177,6 +177,7 @@ rm /usr/local/sbin/easytier-cli
 rm /usr/local/sbin/easytier-core
 rm /etc/rc.d/rc.easytier
 rm -rf /usr/local/emhttp/plugins/easytier/
+rm /boot/config/plugins/easytier/easytier-linux-x86_64.zip
 echo ""
 echo "+=============================================================================="
 echo "| easytier has been uninstalled."
