@@ -5,7 +5,7 @@
 <!ENTITY author        "nekonature">
 <!ENTITY pluginurl        "https://ghfast.top/https://raw.githubusercontent.com/3RDNature/easytier4unraid/main/easytier.plg">
 <!ENTITY supporturl        "https://github.com/3RDNature/easytier4unraid">
-<!ENTITY pluginver     "2025.2.6">
+<!ENTITY pluginver     "2025.2.10">
 <!ENTITY minosver      "6.11.0">
 <!ENTITY usbcfgdir     "/boot/config/plugins/&name;/">
 ]>
@@ -20,6 +20,10 @@
 
 <CHANGES>
 ## EasyTier
+
+### 2024.2.10
+- Update easytier to v2.2.1
+- Fixed duplicate bug.
 
 ### 2024.2.6
 - Update easytier to v2.2.0
@@ -36,8 +40,8 @@
 </CHANGES>
 
 <FILE Name="&usbcfgdir;easytier-linux-x86_64.zip">
-<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.2.0/easytier-linux-x86_64-v2.2.0.zip</URL>
-<MD5>b6f890a6e893c4971438c86d4040ca56</MD5>
+<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.2.1/easytier-linux-x86_64-v2.2.1.zip</URL>
+<MD5>f298642d8d096b1a81c5209811035e04</MD5>
 </FILE>
 
 <FILE Run="/bin/bash">
@@ -129,7 +133,6 @@ cat > /etc/rc.d/rc.easytier << EOF
 #!/bin/bash
 
 start() {
-	nohup /usr/local/sbin/easytier-core -c /boot/config/plugins/easytier/config.toml > /dev/null 2>&1& echo $! > /usr/local/emhttp/plugins/easytier/easytier.pid
     nohup /usr/local/sbin/easytier-core -c /boot/config/plugins/easytier/config.toml > /dev/null 2>&1& echo $! > /usr/local/emhttp/plugins/easytier/easytier.pid
     echo "EasyTier started"
 }
