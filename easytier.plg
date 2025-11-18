@@ -21,6 +21,9 @@
 <CHANGES>
 ## EasyTier
 
+## 2025.11.18
+- Update easytier to v2.4.5
+
 ## 2024.6.30
 - Update easytier to v2.3.2
   - (easytier support QUIC now)
@@ -50,8 +53,8 @@
 </CHANGES>
 
 <FILE Name="&usbcfgdir;easytier-linux-x86_64.zip">
-<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.3.2/easytier-linux-x86_64-v2.3.2.zip</URL>
-<MD5>61ffc7e78904a2916a802870eb1aa3ff</MD5>
+<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.4.5/easytier-linux-x86_64-v2.4.5.zip</URL>
+<MD5>c26bf1382d9d44a29ea0b5aa54728177</MD5>
 </FILE>
 
 <FILE Run="/bin/bash">
