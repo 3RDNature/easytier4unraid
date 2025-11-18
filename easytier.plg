@@ -5,7 +5,7 @@
 <!ENTITY author        "nekonature">
 <!ENTITY pluginurl        "https://ghfast.top/https://raw.githubusercontent.com/3RDNature/easytier4unraid/main/easytier.plg">
 <!ENTITY supporturl        "https://github.com/3RDNature/easytier4unraid">
-<!ENTITY pluginver     "2025.6.30">
+<!ENTITY pluginver     "2025.11.18">
 <!ENTITY minosver      "6.11.0">
 <!ENTITY usbcfgdir     "/boot/config/plugins/&name;/">
 ]>
