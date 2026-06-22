@@ -5,7 +5,7 @@
 <!ENTITY author        "nekonature">
 <!ENTITY pluginurl        "https://ghfast.top/https://raw.githubusercontent.com/3RDNature/easytier4unraid/main/easytier.plg">
 <!ENTITY supporturl        "https://github.com/3RDNature/easytier4unraid">
-<!ENTITY pluginver     "2025.11.18">
+<!ENTITY pluginver     "2026.6.22">
 <!ENTITY minosver      "6.11.0">
 <!ENTITY usbcfgdir     "/boot/config/plugins/&name;/">
 ]>
@@ -20,6 +20,9 @@
 
 <CHANGES>
 ## EasyTier
+
+## 2026.6.22
+- Update easytier to v2.6.4
 
 ## 2025.11.18
 - Update easytier to v2.4.5
@@ -53,8 +56,8 @@
 </CHANGES>
 
 <FILE Name="&usbcfgdir;easytier-linux-x86_64.zip">
-<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.4.5/easytier-linux-x86_64-v2.4.5.zip</URL>
-<MD5>c26bf1382d9d44a29ea0b5aa54728177</MD5>
+<URL>https://ghfast.top/https://github.com/EasyTier/EasyTier/releases/download/v2.6.4/easytier-linux-x86_64-v2.6.4.zip</URL>
+<MD5>d8368c73e3f9463bffcc2446e141c6c1</MD5>
 </FILE>
 
 <FILE Run="/bin/bash">
